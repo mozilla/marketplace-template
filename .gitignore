@@ -26,6 +26,7 @@ npm-debug.log
 tests/captures/*
 TMP
 src/locales/*
+src/media/js/commonplace
 src/media/build_id.txt
 src/media/locales/*
 src/media/css/include.css

@@ -16,11 +16,11 @@ gulp.task('bower_copy', ['install'], function() {
     // Copy files from Bower into project.
     _.each(Object.keys(config.gulpBowerCopy), function(source) {
         var dest = config.gulpBowerCopy[source];
-        console.log(source);
-        console.log(dest);
         gulp.src(source)
             .pipe(gulp.dest(dest));
     });
 });
 
-gulp.task('default', ['bower_copy']);
+gulp.task('update', ['bower_copy']);
+
+gulp.task('default');
