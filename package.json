@@ -10,7 +10,11 @@
     "node": ">= 0.10.x",
     "npm": ">= 1.1.x"
   },
-  "dependencies": {},
+  "dependencies": {
+    "gulp": "3.8.x",
+    "gulp-install": "0.2.x",
+    "underscore": "1.7.x"
+  },
   "devDependencies": {
     "casperjs": "^1.1.0-beta3"
   }
