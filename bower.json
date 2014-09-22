@@ -1,0 +1,11 @@
+{
+    "author": "Mozilla",
+    "name": "my-commonplace-app",
+    "description": "Bootstrap template for your Commonplace app.",
+    "version": "0.0.0",
+    "dependencies": {
+        "commonplace": "*"
+    },
+    "ignore": [
+    ]
+}

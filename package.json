@@ -1,0 +1,17 @@
+{
+  "name": "my-commonplace-app",
+  "version": "0.0.0",
+  "private": true,
+  "repository": {
+    "url": "git://github.com/mozilla/my-commonplace-app.git",
+    "type": "git"
+  },
+  "engines": {
+    "node": ">= 0.10.x",
+    "npm": ">= 1.1.x"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "casperjs": "^1.1.0-beta3"
+  }
+}
