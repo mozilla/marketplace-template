@@ -1,24 +1,26 @@
 <div id="directory-footer" class="main full c">
   <div class="group">
-    <a class="button alt devhub" href="/developers/">{{ _('Develop Apps') }}</a>
+    <a class="button devhub" href="/developers/">{{ _('Develop Apps') }}</a>
   </div>
   <div class="group links">
     <a href="/developers/">{{ _('Developer Hub') }}</a>
     <a href="#" class="submit-feedback">{{ _('Feedback') }}</a>
-    <a href="https://support.mozilla.org/products/firefox-os/marketplace" target="_blank">{{ _('Support') }}</a>
+    {% if capabilities.firefoxOS %}
+      <a href="https://support.mozilla.org/products/firefox-os/marketplace" target="_blank">{{ _('Support') }}</a>
+    {% elif capabilities.firefoxAndroid %}
+      <a href="https://support.mozilla.org/kb/install-android-apps-using-marketplace" target="_blank">{{ _('Support') }}</a>
+    {% endif %}
   </div>
   <div class="language group links">
-    <a href="/settings" class="region region-{{ user.get_setting('region', 'restofworld') }}">
-      {{ REGIONS[user.get_setting('region', 'restofworld')] }}</a>
-    <a href="/purchases">{{ _('My Apps') }}</a>
+    {# <a href="{{ url('purchases') }}">{{ _('My Apps') }}</a> #}
     {% if user.get_permission('developer') %}
-      <a href="/developers/submissions">{{ _('My Submissions') }}</a>
+      <a href="/developers/submissions" rel="external">{{ _('My Submissions') }}</a>
     {% endif %}
     {% if user.get_permission('reviewer') %}
-      <a href="/reviewers/apps/queue/" class="only-logged-in">{{ _('Reviewer Tools') }}</a>
+      <a href="/reviewers/apps/queue/" rel="external" class="only-logged-in">{{ _('Reviewer Tools') }}</a>
     {% endif %}
     {% if user.get_permission('lookup') %}
-      <a href="/lookup/" class="only-logged-in">{{ _('Lookup Tool') }}</a>
+      <a href="/lookup/" rel="external" class="only-logged-in">{{ _('Lookup Tool') }}</a>
     {% endif %}
   </div>
 </div>
@@ -31,9 +33,9 @@
            cc_url='http://creativecommons.org/licenses/by-sa/3.0/') }}
     </p>
     <ul>
-      <li><a href="/privacy-policy">{{ _('Privacy Policy') }}</a></li>
-      <li><a href="/terms-of-use">{{ _('Terms of Use') }}</a></li>
-      <li><a href="http://mozilla.com/legal/fraud-report/index.html" target="_blank">
+      <li><a href="https://marketplace.firefox.com/privacy-policy">{{ _('Privacy Policy') }}</a></li>
+      <li><a href="https://marketplace.firefox.com/terms-of-use">{{ _('Terms of Use') }}</a></li>
+      <li><a href="https://www.mozilla.org/legal/fraud-report/index.html" target="_blank">
         {{ _('Report Trademark Abuse') }}</a></li>
     </ul>
   </div>
