@@ -1,4 +1,5 @@
 var gulp = require('gulp');
+var gulpUtil = require('gulp-util');
 var insert = require("gulp-insert");
 var install = require("gulp-install");
 var _ = require('underscore');
@@ -10,10 +11,14 @@ var paths = {
 paths.require = paths.bower + 'requirejs/require.js';
 
 
-gulp.task('install', function() {
+gulp.task('install', function(done) {
     // Bumps bower and npm dependencies.
     gulp.src(['bower.json', 'package.json'])
-        .pipe(install());
+        .pipe(install())
+        .pipe(gulpUtil.noop())  // Wait for dependencies to finish installing.
+        .on('finish', function() {
+            done();
+        });
 });
 
 
