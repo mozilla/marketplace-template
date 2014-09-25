@@ -1,5 +1,4 @@
 define('routes_api', [], function() {
-
     // List API routes here.
     // E.g.:
     // {
@@ -7,8 +6,8 @@ define('routes_api', [], function() {
     //     "another_route": "/foo/bar/{0}/asdf"
     // }
     return {
-        'login': '/api/v1/account/login/',
-        'logout': '/api/v1/account/logout/',
-        'consumer_info': '/api/v1/fireplace/consumer-info/',
+        'login': '/api/v2/account/login/',
+        'logout': '/api/v2/account/logout/',
+        'consumer_info': '/api/v2/fireplace/consumer-info/',
     };
 });
