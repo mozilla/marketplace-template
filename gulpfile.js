@@ -10,11 +10,10 @@ var paths = {
 paths.require = paths.bower + 'requirejs/require.js';
 
 
-gulp.task('install', function(done) {
+gulp.task('install', function() {
     // Bumps bower and npm dependencies.
-    gulp.src(['./bower.json', './package.json'])
-        .pipe(install())
-        .end(done);
+    gulp.src(['bower.json', 'package.json'])
+        .pipe(install());
 });
 
 
