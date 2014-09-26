@@ -4,7 +4,7 @@ var extend = require('node.extend');
 
 var LIB_DEST_PATH = config.LIB_DEST_PATH;
 
-module.exports = extend(true, {
+var localConfig = extend(true, {
     bowerConfig: {
         // Bower configuration for which files to get, and where to put them.
         // [Source, excluding bower_components]: [Destination].
@@ -18,3 +18,8 @@ module.exports = extend(true, {
         }
     }
 }, config);
+
+localConfig.inlineRequireConfig = config.makeInlineRequireConfig(
+    localConfig.requireConfig);
+
+module.exports = localConfig;
