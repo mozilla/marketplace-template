@@ -11,3 +11,6 @@ update:
 
 build:
 	@node_modules/.bin/gulp build
+
+clean:
+	@node_modules/.bin/gulp clean

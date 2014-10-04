@@ -1,11 +1,13 @@
 var glob = require('glob');
 var gulp = require('gulp');
+var clean = require('gulp-clean');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var gulpUtil = require('gulp-util');
 var insert = require("gulp-insert");
 var install = require("gulp-install");
 var rjs = require('gulp-requirejs');
+var rename = require('gulp-rename');
 var _ = require('underscore');
 var config = require('./config');
 
@@ -15,6 +17,8 @@ var paths = {
 paths.require = paths.bower + 'requirejs/require.js';
 paths.almond = paths.bower + 'almond/almond.js';
 paths.init = paths.bower + 'commonplace/dist/core/init.js';
+
+var JS_FILE = 'include.js'
 
 
 gulp.task('install', function(done) {
@@ -71,22 +75,34 @@ gulp.task('requirejs_build', function() {
         rjs({
             baseUrl: config.JS_DEST_PATH,
             // Output filename.
-            out: 'include.js',
+            out: JS_FILE,
             // Modules to optimize, dependencies will map.
             exclude: ['templates'],
-            include: ['main'].concat(views),
+            include: ['main',
+                      '../../../' + paths.almond,
+                      '../../../' + paths.init].concat(views),
             paths: config.requireConfig.paths,
             shim: config.requireConfig.shim,
-        // r.js wrapper returns virtual file, pipe it to our destination.
         })
-        .pipe(concat(paths.almond))
-        .pipe(concat(paths.init))
-        .pipe(uglify())
         .pipe(gulp.dest(config.JS_DEST_PATH));
     });
 });
 
 
+gulp.task('js', ['requirejs_build'], function() {
+    gulp.src([config.JS_DEST_PATH + JS_FILE, paths.almond, paths.init])
+        .pipe(concat(JS_FILE))
+        .pipe(uglify())
+        .pipe(gulp.dest(config.JS_DEST_PATH));
+});
+
+
+gulp.task('clean', function() {
+    gulp.src([config.JS_DEST_PATH + JS_FILE], {read: false})
+        .pipe(clean({force: true}));
+});
+
+
 gulp.task('default', []);
 gulp.task('update', ['bower_copy', 'require_config']);
-gulp.task('build', ['requirejs_build']);
+gulp.task('build', ['js']);
