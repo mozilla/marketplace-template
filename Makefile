@@ -8,3 +8,6 @@ init:
 
 update:
 	@node_modules/.bin/gulp update
+
+build:
+	@node_modules/.bin/gulp build

@@ -16,17 +16,13 @@ if (window.require.hasOwnProperty('defined')) {
     ]);
 }
 
-define(
-    'routes',
-    routes.map(function(i) {return 'views/' + i.view_name;}),
-    function() {
-        for (var i = 0; i < routes.length; i++) {
-            var route = routes[i];
-            var view = require('views/' + route.view_name);
-            route.view = view;
-        }
-        return routes;
+define('routes', [], function() {
+    for (var i = 0; i < routes.length; i++) {
+        var route = routes[i];
+        var view = require('views/' + route.view_name);
+        route.view = view;
     }
-);
+    return routes;
+});
 
 })();

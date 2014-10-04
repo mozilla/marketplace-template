@@ -15,6 +15,9 @@ var localConfig = extend(true, {
         // [Module name]: [Module path].
         paths: {
             // 'isotope': 'lib/isotope.pkgd',
+        },
+        shim: {
+            // 'underscore': { 'exports': '_' }
         }
     }
 }, config);
