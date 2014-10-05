@@ -4,12 +4,14 @@ var clean = require('gulp-clean');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var gulpUtil = require('gulp-util');
+var ignore = require('gulp-ignore');
 var insert = require("gulp-insert");
 var install = require("gulp-install");
 var rjs = require('gulp-requirejs');
 var rename = require('gulp-rename');
 var webserver = require('gulp-webserver');
 var _ = require('underscore');
+var argv = require('yargs').argv;
 var config = require('./config');
 
 var paths = {
@@ -99,6 +101,7 @@ gulp.task('requirejs_build', function() {
             },
             paths: config.requireConfig.paths,
             shim: config.requireConfig.shim,
+            wrapShim: true,
         })
         .pipe(gulp.dest(config.JS_DEST_PATH));
     });
@@ -106,7 +109,7 @@ gulp.task('requirejs_build', function() {
 
 
 gulp.task('js', ['requirejs_build'], function() {
-    gulp.src([config.JS_DEST_PATH + JS_FILE, paths.almond, paths.init])
+    gulp.src([paths.almond, config.JS_DEST_PATH + JS_FILE, paths.init])
         .pipe(concat(JS_FILE))
         .pipe(uglify())
         .pipe(gulp.dest(config.JS_DEST_PATH));
@@ -118,6 +121,23 @@ gulp.task('serve', function() {
         .pipe(webserver({
             livereload: true,
             open: true,
+            port: 8675
+        }));
+});
+
+
+gulp.task('serve', ['build'], function() {
+    // t/template -- template to serve (e.g., index (default), app, server).
+    var template = 'index';
+    if (argv._[0] == 'serve' && (argv.t || argv.template)) {
+        template = argv.t || argv.template;
+    }
+
+    gulp.src(['src'])
+        .pipe(ignore.exclude('src/index.html'))
+        .pipe(webserver({
+            fallback: template + '.html',
+            livereload: true,
             port: 8675
         }));
 });
