@@ -12,6 +12,7 @@ var install = require("gulp-install");
 var order = require('gulp-order');
 var rjs = require('gulp-requirejs');
 var rename = require('gulp-rename');
+var stylus = require('gulp-stylus');
 var webserver = require('gulp-webserver');
 var _ = require('underscore');
 var argv = require('yargs').argv;
@@ -19,12 +20,13 @@ var config = require('./config');
 
 var paths = {
     bower: 'bower_components/',
+    css: config.CSS_DEST_PATH + '**/*.css',
+    styl: config.CSS_DEST_PATH + '**/*.styl',
+    js: config.JS_DEST_PATH + '**/*.js'
 };
 paths.require = paths.bower + 'requirejs/require.js';
 paths.almond = paths.bower + 'almond/almond.js';
 paths.init = paths.bower + 'commonplace/dist/core/init.js';
-
-var JS_FILE = 'include.js';
 
 
 gulp.task('install', function(done) {
@@ -57,7 +59,26 @@ gulp.task('require_config', ['install'], function() {
 });
 
 
-gulp.task('js', function() {
+gulp.task('css_compile', function() {
+    gulp.src(paths.styl)
+        .pipe(stylus({
+            linenos: true
+        }))
+        .pipe(gulp.dest(config.CSS_DEST_PATH));
+});
+
+
+gulp.task('css_build', ['css_compile'], function() {
+    gulp.src(paths.css)
+        .pipe(stylus({
+            compress: true
+        }))
+        .pipe(concat('include.css'))
+        .pipe(gulp.dest(config.CSS_DEST_PATH));
+});
+
+
+gulp.task('js_build', function() {
     // Uses the AMD optimizer to bundle our JS modules.
     // Will read our RequireJS config to handle shims, paths, and name
     // anonymous modules.
@@ -66,7 +87,7 @@ gulp.task('js', function() {
         // Almond loader.
         gulp.src(paths.almond),
         // JS bundle.
-        gulp.src('src/media/js/**/*.js')
+        gulp.src(paths.js)
             .pipe(amdOptimize('main', {
                 baseUrl: config.JS_DEST_PATH,
                 findNestedDependencies: true,
@@ -110,4 +131,4 @@ gulp.task('clean', function() {
 
 gulp.task('default', []);
 gulp.task('update', ['bower_copy', 'require_config']);
-gulp.task('build', ['js']);
+gulp.task('build', ['css_build', 'js_build']);
