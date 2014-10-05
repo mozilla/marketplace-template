@@ -1,12 +1,15 @@
+var amdOptimize = require('amd-optimize');
 var glob = require('glob');
 var gulp = require('gulp');
 var clean = require('gulp-clean');
 var concat = require('gulp-concat');
+var eventStream = require('event-stream');
 var uglify = require('gulp-uglify');
 var gulpUtil = require('gulp-util');
 var ignore = require('gulp-ignore');
 var insert = require("gulp-insert");
 var install = require("gulp-install");
+var order = require('gulp-order');
 var rjs = require('gulp-requirejs');
 var rename = require('gulp-rename');
 var webserver = require('gulp-webserver');
@@ -54,75 +57,31 @@ gulp.task('require_config', ['install'], function() {
 });
 
 
-gulp.task('requirejs_build', function() {
-    // Uses the RequireJS optimizer (r.js) to bundle our JS modules.
-    // r.js will read our RequireJS config to handle shims, paths, and
+gulp.task('js', function() {
+    // Uses the AMD optimizer to bundle our JS modules.
+    // Will read our RequireJS config to handle shims, paths, and name
     // anonymous modules.
-
-    // Remove fallback paths (e.g, 'settings': ['settings', 'settings_l']).
-    var require_paths = config.requireConfig.paths;
-    _.each(Object.keys(require_paths), function(key) {
-        if (_.isObject(require_paths[key])) {
-            delete require_paths[key];
-        }
-    });
-
-    // Search for view modules to include since they are dynamically defined in
-    // routes.js and r.js can't parse that.
-    glob(config.JS_DEST_PATH + '**/views/**/*.js', {}, function(e, files) {
-        var views = _.map(files, function(file) {
-            var paths = file.split('/');
-            return 'views/' + paths[paths.length - 1].replace('.js', '');
-        });
-
-        rjs({
-            baseUrl: config.JS_DEST_PATH,
-            findNestedDependencies: true,
-            // Output filename.
-            out: JS_FILE,
-            // Modules to optimize, dependencies will map.
-            exclude: ['templates'],
-            include: ['main'].concat(views),
-            onBuildRead: function(module, path, contents) {
-                if (module == 'routes') {
-                    // Handle the dynamic dependencies in routes.js.
-                    // In development, we build an array of views to pass to
-                    // the definition of `routes`.
-                    // During building, esprima doesn't like this as it
-                    // traverses the module tree and expects an array of
-                    // dependencies, not a variable.
-                    // So we replace it with an empty array, which should be
-                    // fine for almond.
-                    return contents.replace(
-                        /'routes', .*, function/, "'routes', [], function"
-                    );
-                }
-                return contents;
-            },
-            paths: config.requireConfig.paths,
-            shim: config.requireConfig.shim,
-            wrapShim: true,
-        })
-        .pipe(gulp.dest(config.JS_DEST_PATH));
-    });
-});
-
-
-gulp.task('js', ['requirejs_build'], function() {
-    gulp.src([paths.almond, config.JS_DEST_PATH + JS_FILE, paths.init])
-        .pipe(concat(JS_FILE))
+    // Traces all modules and outputs them in the correct order.
+    eventStream.merge(
+        // Almond loader.
+        gulp.src(paths.almond),
+        // JS bundle.
+        gulp.src('src/media/js/**/*.js')
+            .pipe(amdOptimize('main', {
+                baseUrl: config.JS_DEST_PATH,
+                findNestedDependencies: true,
+                paths: config.requireConfig.paths,
+                shim: config.requireConfig.shim,
+                wrapShim: true
+            }))
+            .pipe(concat('include.js')),
+        // Init script.
+        gulp.src(paths.init)
+    )
+        .pipe(order(['**/almond.js', '**/include.js', '**/init.js']))
         .pipe(uglify())
+        .pipe(concat('include.js'))
         .pipe(gulp.dest(config.JS_DEST_PATH));
-});
-
-
-gulp.task('serve', function() {
-    gulp.src('src')
-        .pipe(webserver({
-            livereload: true,
-            open: true,
-            port: 8675
-        }));
 });
 
 
