@@ -10,17 +10,19 @@ var routes = window.routes = [
 // we use commonplace's `amd.js`.)
 if (window.require.hasOwnProperty('defined')) {
     // The minified JS bundle doesn't need some dev-specific JS views.
-    // Those go here.
     routes = routes.concat([
         {'pattern': '^/tests$', 'view_name': 'tests'}
     ]);
 }
 
-define('routes', [], function() {
+var dependencies = routes.map(function(route) {
+    return 'views/' + route.view_name;
+});
+
+define('routes', dependencies, function() {
     for (var i = 0; i < routes.length; i++) {
         var route = routes[i];
-        var view = require('views/' + route.view_name);
-        route.view = view;
+        route.view = require('views/' + route.view_name);
     }
     return routes;
 });

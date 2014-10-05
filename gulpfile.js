@@ -8,6 +8,7 @@ var insert = require("gulp-insert");
 var install = require("gulp-install");
 var rjs = require('gulp-requirejs');
 var rename = require('gulp-rename');
+var webserver = require('gulp-webserver');
 var _ = require('underscore');
 var config = require('./config');
 
@@ -18,7 +19,7 @@ paths.require = paths.bower + 'requirejs/require.js';
 paths.almond = paths.bower + 'almond/almond.js';
 paths.init = paths.bower + 'commonplace/dist/core/init.js';
 
-var JS_FILE = 'include.js'
+var JS_FILE = 'include.js';
 
 
 gulp.task('install', function(done) {
@@ -74,13 +75,28 @@ gulp.task('requirejs_build', function() {
 
         rjs({
             baseUrl: config.JS_DEST_PATH,
+            findNestedDependencies: true,
             // Output filename.
             out: JS_FILE,
             // Modules to optimize, dependencies will map.
             exclude: ['templates'],
-            include: ['main',
-                      '../../../' + paths.almond,
-                      '../../../' + paths.init].concat(views),
+            include: ['main'].concat(views),
+            onBuildRead: function(module, path, contents) {
+                if (module == 'routes') {
+                    // Handle the dynamic dependencies in routes.js.
+                    // In development, we build an array of views to pass to
+                    // the definition of `routes`.
+                    // During building, esprima doesn't like this as it
+                    // traverses the module tree and expects an array of
+                    // dependencies, not a variable.
+                    // So we replace it with an empty array, which should be
+                    // fine for almond.
+                    return contents.replace(
+                        /'routes', .*, function/, "'routes', [], function"
+                    );
+                }
+                return contents;
+            },
             paths: config.requireConfig.paths,
             shim: config.requireConfig.shim,
         })
@@ -94,6 +110,16 @@ gulp.task('js', ['requirejs_build'], function() {
         .pipe(concat(JS_FILE))
         .pipe(uglify())
         .pipe(gulp.dest(config.JS_DEST_PATH));
+});
+
+
+gulp.task('serve', function() {
+    gulp.src('src')
+        .pipe(webserver({
+            livereload: true,
+            open: true,
+            port: 8675
+        }));
 });
 
 
