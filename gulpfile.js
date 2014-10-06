@@ -10,4 +10,4 @@
 var requireDir = require('require-dir');
 
 // Include all tasks from the common gulpfile.
-requireDir('bower_components/commonplace/dist/gulpfiles');
+requireDir('bower_components/commonplace/dist/gulp');
