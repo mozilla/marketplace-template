@@ -19,7 +19,8 @@ var localConfig = extend(true, {
         shim: {
             // 'underscore': { 'exports': '_' }
         }
-    }
+    },
+    PORT: 8675
 }, config);
 
 localConfig.inlineRequireConfig = config.makeInlineRequireConfig(
