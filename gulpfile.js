@@ -7,7 +7,8 @@
    in Commonplace. You may make local modifications to the Gulpfile in the
    bower_components directory, but remember to upstream it.
 */
+var config = require('config');
 var requireDir = require('require-dir');
 
 // Include all tasks from the common gulpfile.
-requireDir('bower_components/commonplace/dist/gulp');
+requireDir(config.GULP_SRC_PATH);
