@@ -17,4 +17,4 @@ clean:
 	@node_modules/.bin/gulp clean
 
 serve:
-	@node_modules/.bin/gulp serve
+	@node_modules/.bin/gulp
