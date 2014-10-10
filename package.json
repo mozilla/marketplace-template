@@ -30,6 +30,7 @@
     "gulp-uglify": "1.0.1",
     "gulp-util": "3.0.x",
     "gulp-webserver": "0.8.3",
+    "merge-stream": "0.1.6",
     "require-dir": "0.1.0",
     "node.extend": "1.1.2",
     "nunjucks": "1.0.x",
