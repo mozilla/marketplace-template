@@ -6,6 +6,7 @@
     "dependencies": {
         "commonplace": "*",
         "marketplace-constants": "*",
+        "marketplace-gulp": "*",
 
         "almond": "0.2.9",
         "jquery": "2.0.2",
