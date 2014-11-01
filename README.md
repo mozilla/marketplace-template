@@ -1,4 +1,4 @@
-commonplace-template
+marketplace-template
 ====================
 
 Bootstrap template for Firefox Marketplace frontend projects.

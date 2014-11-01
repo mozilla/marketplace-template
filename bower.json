@@ -1,8 +1,8 @@
 {
     "author": "Mozilla",
-    "name": "my-commonplace-app",
-    "description": "Bootstrap template for your Commonplace app.",
-    "version": "0.0.0",
+    "name": "marketplace-template",
+    "description": "Template for Firefox Marketplace frontend projects.",
+    "version": "0.0.1",
     "dependencies": {
         "commonplace": "*",
         "marketplace-constants": "*",
@@ -14,5 +14,7 @@
         "underscore": "1.4.4"
     },
     "ignore": [
+        "*.py",
+        "README.md"
     ]
 }
