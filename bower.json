@@ -15,6 +15,7 @@
     },
     "ignore": [
         "*.py",
-        "README.md"
+        "README.md",
+        "LICENSE"
     ]
 }
