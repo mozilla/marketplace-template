@@ -29,6 +29,7 @@ def pre_update(ref):
 @task
 def update():
     with lcd(PROJECT_NAME):
+        local('npm install')
         local('make update')
         local('cp src/media/js/settings_local_hosted.js src/media/js/settings_local.js')
         local('make build')
