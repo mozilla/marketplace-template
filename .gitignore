@@ -36,6 +36,7 @@ src/media/include.css
 src/media/include.js
 src/media/js/commonplace
 src/media/js/include.js
+src/media/js/include.js.map
 src/media/js/l10n.js
 src/media/js/views.js
 src/media/js/lib
