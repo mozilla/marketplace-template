@@ -25,7 +25,6 @@ dist
 node_modules
 npm-debug.log
 settings_local.js
-settings_local_hosted.js
 src/app.html
 src/index.html
 src/locales/*
