@@ -1,12 +1,11 @@
-marketplace-template
-====================
-
 Bootstrap template for Firefox Marketplace frontend projects.
 
-Powered by [Commonplace](http://github.com/mozilla/commonplace) components.
+- [Marketplace frontend documentation](https://marketplace-frontend.readthedocs.org)
+- [Marketplace documentation](https://marketplace.readthedocs.org)
 
-Read the [Commonplace wiki](https://github.com/mozilla/commonplace/wiki/_pages)
-for usage.
 
-- ```make init```
+## Installation
+
+- ```npm install```
+- ```make install```
 - ```make serve```
