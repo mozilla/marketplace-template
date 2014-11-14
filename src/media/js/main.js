@@ -1,12 +1,5 @@
 console.log('Sample Commonplace App');
 
-require.config({
-    paths: {
-        // require config is hack-defined at the bottom of lib/require.js.
-        // 'your_lib_module': 'lib/your_lib_module'
-    }
-});
-
 define(
     'main',
     [
