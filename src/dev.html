@@ -5,10 +5,19 @@
     <meta name="viewport" content="width=device-width, user-scalable=no,
                                    initial-scale=1, maximum-scale=1">
     <title>Sample App</title>
+
+    <!--Remove me.-->
     <link rel="stylesheet"
           href="https://marketplace-dev-cdn.allizom.org/media/fireplace/css/splash.css">
     <link rel="stylesheet"
           href="https://marketplace-dev-cdn.allizom.org/media/fireplace/css/include.css">
+
+    {% if compiled %}
+      <link rel="stylesheet" href="/media/css/splash.css">
+      <link rel="stylesheet" href="/media/css/include.css">
+    {% else %}
+      <!--Add stylesheets here.-->
+    {% endif %}
   </head>
 
   <body class="home" data-media="">
@@ -31,8 +40,11 @@
       </section>
     </div>
 
-    <script src="https://login.persona.org/include.js"></script>
     <script src="/media/js/l10n.js"></script>
-    <script data-main="/media/js/main" src="/media/js/lib/require.js"></script>
+    {% if compiled %}
+      <script src="/media/js/include.js" defer></script>
+    {% else %}
+      <script data-main="/media/js/main" src="/media/js/lib/require.js"></script>
+    {% endif %}
   </body>
 </html>
