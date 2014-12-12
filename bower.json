@@ -4,7 +4,6 @@
     "description": "Template for Firefox Marketplace frontend projects.",
     "version": "0.0.1",
     "dependencies": {
-        "commonplace": "*",
         "marketplace-constants": "*",
         "marketplace-core-modules": "*",
 
