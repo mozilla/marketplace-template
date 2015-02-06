@@ -1,15 +1,19 @@
-define('settings', ['l10n', 'settings_local', 'underscore'], function(l10n, settings_local, _) {
+define('settings_app',
+    ['core/capabilities', 'core/l10n', 'core/settings', 'core/storage',
+     'settings_local', 'underscore'],
+    function(capabilities, l10n, settings, storage,
+             localSettings, _) {
+
     var gettext = l10n.gettext;
 
      function offline_cache_enabled() {
-        var storage = require('storage');
-        if (storage.getItem('offline_cache_disabled') || require('capabilities').phantom) {
+        if (storage.getItem('offline_cache_disabled') || capabilities.phantom) {
             return false;
         }
         return window.location.search.indexOf('cache=false') === -1;
     }
 
-    return _.defaults(settings_local, {
+    settings._extend({
         app_name: 'commonplace app',
         init_module: 'main',
         default_locale: 'en-US',
@@ -49,4 +53,6 @@ define('settings', ['l10n', 'settings_local', 'underscore'], function(l10n, sett
 
         title_suffix: 'Commonplace App'
     });
+
+    settings._extend(localSettings);
 });

@@ -1,9 +1,10 @@
-define('settings_local', [], function() {
-	// Use this module for settings to be used in production.
-    var origin = window.location.origin || (
-        window.location.protocol + '//' + window.location.host);
-    return {
-        api_url: origin,
+define('settings_local',
+    ['core/polyfill'],
+    function(polyfill) {
+
+    // core/polyfill is needed for `window.location.origin`.
+    settings._extend({
+        api_url: window.location.origin,
         media_url: document.body.getAttribute('data-media')
-    };
+    });
 });
