@@ -1,49 +1,45 @@
 console.log('Sample Commonplace App');
 
-define(
-    'main',
-    [
-        'helpers',  // Must come before mostly everything else.
-        'helpers_local',
-        'forms',  // Comment this if your app has no forms.
-        'l10n',
-        'log',
-        'login',  // Comment this if your app does not have accounts.
-        'navigation',
-        'templates',
-        'user',  // Comment this if your app does not have accounts.
-        'z'
-    ],
-function() {
-    var console = require('log')('main');
-    var z = require('z');
+define('main', ['init'], function() {
+require([
+    'core/forms',  // Comment this if your app has no forms.
+    'core/l10n',
+    'core/log',
+    'core/login',  // Comment this if your app does not have accounts.
+    'core/navigation',
+    'core/settings',
+    'core/user',  // Comment this if your app does not have accounts.
+    'core/z',
+    'templates',
+], function(forms, l10n, log, login, navigation, settings, user, z, nunjucks) {
+    var logger = log('main');
 
-    console.log('Dependencies resolved, starting init');
+    logger.log('Dependencies resolved, starting init');
 
-    z.body.addClass('html-' + require('l10n').getDirection());
+    z.body.addClass('html-' + l10n.getDirection());
 
     // Do some last minute template compilation.
     z.page.on('reload_chrome', function() {
-        console.log('Reloading chrome');
-        var nunjucks = require('templates');
+        logger.log('Reloading chrome');
         $('#site-header').html(
             nunjucks.env.render('header.html'));
         $('#site-footer').html(
             nunjucks.env.render('footer.html'));
 
-        z.body.toggleClass('logged-in', require('user').logged_in());
+        z.body.toggleClass('logged-in', user.logged_in());
         z.page.trigger('reloaded_chrome');
     }).trigger('reload_chrome');
 
     z.body.on('click', '.site-header .back', function(e) {
         e.preventDefault();
-        console.log('← button pressed');
-        require('navigation').back();
+        logger.log('← button pressed');
+        navigation.back();
     });
 
     // Perform initial navigation.
-    console.log('Triggering initial navigation');
+    logger.log('Triggering initial navigation');
     z.page.trigger('navigate', [window.location.pathname + window.location.search]);
 
-    console.log('Initialization complete');
+    logger.log('Initialization complete');
+});
 });
