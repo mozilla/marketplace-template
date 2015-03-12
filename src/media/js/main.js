@@ -1,4 +1,9 @@
-console.log('Sample Commonplace App');
+/*
+    The main file that initializes the app.
+    Only put initialization code in here. Everything else should go into
+    separate and appropriate modules. This is not your diaper.
+*/
+console.log('Firefox Marketplace App');
 
 define('main', ['init'], function() {
 require([
@@ -13,8 +18,6 @@ require([
     'templates',
 ], function(forms, l10n, log, login, navigation, settings, user, z, nunjucks) {
     var logger = log('main');
-
-    logger.log('Dependencies resolved, starting init');
 
     z.body.addClass('html-' + l10n.getDirection());
 
@@ -37,9 +40,7 @@ require([
     });
 
     // Perform initial navigation.
-    logger.log('Triggering initial navigation');
     z.page.trigger('navigate', [window.location.pathname + window.location.search]);
-
     logger.log('Initialization complete');
 });
 });
