@@ -5,7 +5,8 @@
 */
 console.log('Firefox Marketplace App');
 
-define('main', ['init'], function() {
+define('main', ['routes', 'settings_app'], function() {
+define('main', ['core/init'], function() {
 require([
     'core/forms',  // Comment this if your app has no forms.
     'core/l10n',
@@ -15,6 +16,8 @@ require([
     'core/settings',
     'core/user',  // Comment this if your app does not have accounts.
     'core/z',
+
+    'helpers_local',
     'templates',
 ], function(forms, l10n, log, login, navigation, settings, user, z, nunjucks) {
     var logger = log('main');
@@ -35,12 +38,12 @@ require([
 
     z.body.on('click', '.site-header .back', function(e) {
         e.preventDefault();
-        logger.log('← button pressed');
         navigation.back();
     });
 
     // Perform initial navigation.
     z.page.trigger('navigate', [window.location.pathname + window.location.search]);
     logger.log('Initialization complete');
+});
 });
 });
