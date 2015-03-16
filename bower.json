@@ -6,9 +6,9 @@
     "dependencies": {
         "marketplace-constants": "*",
         "marketplace-core-modules": "*",
+        "marketplace-jquery": "*",
 
         "almond": "0.2.9",
-        "jquery": "2.0.2",
         "requirejs": "2.1.4",
         "underscore": "1.4.4"
     },
