@@ -11,6 +11,13 @@ fabdeploytools.envs.loadenv(settings.CLUSTER)
 
 ROOT, PROJECT_NAME = helpers.get_app_dirs(__file__)
 
+if settings.ZAMBONI_DIR:
+    helpers.scl_enable('python27')
+    ZAMBONI = '%s/zamboni' % settings.ZAMBONI_DIR
+    ZAMBONI_PYTHON = '%s/venv/bin/python' % settings.ZAMBONI_DIR
+
+os.environ['DJANGO_SETTINGS_MODULE'] = 'settings_local_mkt'
+
 
 @task
 def pre_update(ref):
@@ -33,8 +40,20 @@ def update():
 @task
 def deploy():
     helpers.deploy(name=settings.PROJECT_NAME,
-                   app_dir='my-commonplace-app',
+                   app_dir='marketplace-app',
                    env=settings.ENV,
                    cluster=settings.CLUSTER,
                    domain=settings.DOMAIN,
                    root=ROOT)
+
+    r.local_install()
+    r.remote_install(['web'])
+
+    deploy_build_id(settings.PROJECT_NAME)
+
+
+@task
+def deploy_build_id(app):
+    with lcd(ZAMBONI):
+        local('%s manage.py deploy_build_id %s' %
+              (ZAMBONI_PYTHON, app))
