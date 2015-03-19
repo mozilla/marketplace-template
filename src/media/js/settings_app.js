@@ -10,18 +10,15 @@ define('settings_app',
     }
 
     settings._extend({
-        app_name: 'Firefox Marketplace App',
-        default_locale: 'en-US',
         api_url: 'http://' + window.location.hostname,
 
         param_whitelist: ['q', 'sort'],
         api_param_blacklist: null,
         api_cdn_whitelist: {},
 
-        // These are the only URLs that should be cached
-        // (key: URL; value: TTL [time to live] in seconds).
-        // Keep in mind that the cache is always refreshed asynchronously;
-        // these TTLs apply to only when the app is first launched.
+        // Specifies URLs to be cached (key: URL; value: TTL in seconds).
+        // Cache is always refreshed asynchronously; TTLs only apply to when
+        // app is first launched.
         offline_cache_whitelist: {},
         offline_cache_enabled: offline_cache_enabled,
         offline_cache_limit: 1024 * 1024 * 4, // 4 MB

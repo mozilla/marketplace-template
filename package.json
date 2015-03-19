@@ -1,9 +1,9 @@
 {
-  "name": "my-commonplace-app",
+  "name": "marketplace-app",
   "version": "0.0.0",
   "private": true,
   "repository": {
-    "url": "git://github.com/mozilla/my-commonplace-app.git",
+    "url": "git://github.com/mozilla/marketplace-app.git",
     "type": "git"
   },
   "engines": {

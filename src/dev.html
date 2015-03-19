@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=no,
                                    initial-scale=1, maximum-scale=1">
-    <title>Sample App</title>
+    <title>Firefox Marketplace App</title>
 
     <!--Remove me.-->
     <link rel="stylesheet"
@@ -25,26 +25,15 @@
 
     <header id="site-header" class="header site-header"></header>
 
-    <div class="cloak"></div>
-
     <main>
       <div id="page" class="page" role="main"></div>
     </main>
 
     <footer id="site-footer"></footer>
 
-    <div id="lightbox">
-      <section>
-        <ul class="content"></ul>
-        <a class="close" href="#">&times;</a>
-      </section>
-    </div>
-
     {% if compiled %}
-      <script src="/media/js/l10n.js"></script>
       <script src="/media/js/include.js" defer></script>
     {% else %}
-      <script src="/media/js/lib/core/l10n.js"></script>
       <script data-main="/media/js/main" src="/media/js/lib/require.js"></script>
     {% endif %}
   </body>
