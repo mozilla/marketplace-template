@@ -40,7 +40,5 @@ script:
   - 'if [ $UPLOAD_CAPTURES ]; then make upload-captures; fi'
 cache:
   directories:
-    - /tmp/pip-cache
-    - /tmp/python-env
     - node_modules
     - bower_components
